@@ -65,7 +65,7 @@ Assess each framework against these dimensions:
 - Local-first, deployable to cloud when ready
 
 - **Known dependencies**: Planning blocks design, design blocks build. Claude API is a core dependency for the intelligence layer.
-- **Constraints**: Builder is learning to code — explanations in plain language are essential. The project also serves as a vehicle for learning to organize complex work using established frameworks.
+- **Constraints**: Claude Code handles implementation. The project serves as a vehicle for learning to organize complex work using established frameworks.
 - **Biggest risk**: Building too much and losing interest. The app must earn its place in the user's daily routine within 30 days of first use.
 
 ### What's Explicitly Out of MVP

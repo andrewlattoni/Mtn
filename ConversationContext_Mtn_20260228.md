@@ -6,8 +6,8 @@ This file compresses the scoping conversation that produced the Mtn project blue
 
 ## Who Is the User
 
-- Solo builder, non-technical but actively learning to code (Python)
-- Wants to learn how to organize complex projects using established frameworks, not just build the app
+- Solo builder, non-technical — Claude Code handles implementation
+- Wants to learn how to organize complex projects using established frameworks
 - Prefers direct language, no fluff
 - "Check it in the morning" engagement pattern — 2–3 minutes daily max
 - Values plain-language explanations of technical concepts

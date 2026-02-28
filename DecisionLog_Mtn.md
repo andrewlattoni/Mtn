@@ -154,10 +154,10 @@ This document captures key decisions made during the development of the Mtn proj
 
 **Decision:** Python backend (Flask or FastAPI), plain HTML/CSS/JS frontend, SQLite database, Claude API integration. Local-first deployment.
 
-**Rationale:** The builder is learning to code and has some Python experience. Python is the most accessible backend language for this skill level. No frontend framework in v1 — the added complexity of React/Vue isn't justified when the interface is a morning briefing dashboard. SQLite avoids database server setup while the app is single-user. Local-first means no hosting costs or deployment complexity during the build phase.
+**Rationale:** Python + Claude API is well-suited for Claude Code-assisted development — Claude generates Python fluently and the stack is simple enough that generated code is easy to review and direct. No frontend framework in v1 — the added complexity of React/Vue isn't justified when the interface is a morning briefing dashboard. SQLite avoids database server setup while the app is single-user. Local-first means no hosting costs or deployment complexity during the build phase.
 
 **Alternatives considered:**
-- No-code tools (Bubble, Retool) → rejected (the user wants to learn to build, not use shortcuts)
+- No-code tools (Bubble, Retool) → rejected (limits control, customization, and clean future extension to multi-user)
 - React/Vue frontend → rejected for v1 (premature complexity)
 - PostgreSQL → rejected for v1 (unnecessary for single-user local app)
 
