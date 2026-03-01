@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Morning Briefing{% endblock %}
+
+{% block content %}
+{% set today_str = self.today_date() if self.today_date is defined else "" %}
+
+<p class="date-label">
+  {# Rendered in JS so the date is always live — placeholder here #}
+  <span id="today-date"></span>
+</p>
+
+<!-- Adventure + Readiness card -->
+{% if adventure %}
+  {% set days_out = ((adventure.start_date | string) | days_until) %}
+  <div class="card card--hero">
+    <div class="card-hero-row">
+      <div>
+        <p class="label">Target Adventure</p>
+        <h2 class="hero-title">{{ adventure.trail_name }}</h2>
+        <p class="text-sec">{{ adventure.nights }} nights · {{ adventure.distance_km }} km · {{ adventure.difficulty }}</p>
+      </div>
+      <div class="readiness-block">
+        <p class="label">Readiness</p>
+        <span class="readiness-score">--</span>
+        <p class="mono-xs dim">/ 100</p>
+      </div>
+    </div>
+    <div class="status-pill">
+      {{ days_out }} days out · Last session:
+      {% if recent_logs %}{{ recent_logs[0].date }}{% else %}none logged{% endif %}
+    </div>
+  </div>
+{% else %}
+  <div class="card card--callout">
+    <p class="text-sec">No target adventure set.</p>
+    <a href="{{ url_for('adventure.adventure') }}" class="btn-outline" style="display:inline-block;margin-top:12px;">Set Target Adventure →</a>
+  </div>
+{% endif %}
+
+<!-- Briefing card -->
+<div class="card">
+  <p class="label label--accent">Today's Briefing</p>
+  <p class="briefing-text">{{ briefing_text }}</p>
+</div>
+
+<!-- Info cards row -->
+<div class="card-grid">
+  <div class="card">
+    <p class="label">Nutrition Focus</p>
+    <p class="card-title">Adventure Nutrition</p>
+    <p class="text-sec">Log a check-in to get personalised guidance.</p>
+  </div>
+  <div class="card">
+    <p class="label">Training Status</p>
+    {% if recent_logs %}
+      <p class="card-title">{{ recent_logs[0].activity_type }}</p>
+      <p class="text-sec">Last session: {{ recent_logs[0].date }}, {{ recent_logs[0].intensity.lower() }} intensity.</p>
+    {% else %}
+      <p class="card-title">No sessions yet</p>
+      <p class="text-sec">Log your first training session to track readiness.</p>
+    {% endif %}
+  </div>
+</div>
+
+<a href="{{ url_for('training.log') }}" class="btn-outline btn--full">Log Today's Training →</a>
+
+<script>
+  document.getElementById("today-date").textContent =
+    new Date().toLocaleDateString("en-CA", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+</script>
+{% endblock %}

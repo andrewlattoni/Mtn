@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Log Training Session{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ url_for('training.log_submit') }}" class="form" style="max-width:520px;">
+
+  <div class="form-field">
+    <label class="label">Date</label>
+    <input type="date" name="date" value="{{ today }}" class="input" style="color-scheme:dark;" />
+  </div>
+
+  <div class="form-field">
+    <label class="label">Activity</label>
+    <div class="chip-row">
+      {% for act in ["Hiking", "Running", "Cycling", "Strength", "Other"] %}
+      <label class="chip">
+        <input type="radio" name="activity_type" value="{{ act }}" hidden />
+        {{ act }}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="label">Duration</label>
+    <div class="duration-row">
+      <div class="duration-field">
+        <input type="number" name="hours" placeholder="0" min="0" max="24" class="input" />
+        <span class="mono-xs dim" style="margin-top:4px;display:block;">HOURS</span>
+      </div>
+      <span class="duration-sep">:</span>
+      <div class="duration-field">
+        <input type="number" name="mins" placeholder="00" min="0" max="59" class="input" />
+        <span class="mono-xs dim" style="margin-top:4px;display:block;">MINUTES</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="label">Intensity</label>
+    <div class="chip-row">
+      {% for level in ["Easy", "Moderate", "Hard"] %}
+      <label class="chip chip--intensity-{{ level.lower() }}">
+        <input type="radio" name="intensity" value="{{ level }}" hidden />
+        {{ level }}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="label">Notes</label>
+    <textarea name="notes" rows="4" placeholder="How did it feel? Terrain, weather, anything notable…" class="input input--textarea"></textarea>
+  </div>
+
+  <button type="submit" class="btn-primary btn--full">Save Session</button>
+
+</form>
+{% endblock %}

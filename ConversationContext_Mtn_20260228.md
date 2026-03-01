@@ -32,7 +32,7 @@ Three project documents:
 | 005 | Three interaction modes: morning briefing, scheduled nudges, intelligent triggers | Matches "check in the morning" pattern without requiring constant input |
 | 006 | Claude API as intelligence layer | App manages data/state/UI; Claude manages reasoning/explanation |
 | 007 | Shape Up framework, 4-week cycles + 1-week cooldowns | Best fit for solo builder at risk of overbuilding |
-| 008 | Python + plain HTML/CSS/JS + SQLite + Claude API | Matches current skill level, no premature complexity |
+| 008 | Python (Flask) + plain HTML/CSS/JS + SQLite + Claude API | Flask chosen over FastAPI: single-user, HTML-serving, no async needed |
 
 ## The Scoping Process Used
 
