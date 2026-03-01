@@ -106,13 +106,13 @@ The Claude API handles all reasoning and explanation. The app handles data, stat
 
 | Layer | Choice | Rationale |
 |-------|--------|-----------|
-| Backend | Python + Flask or FastAPI | Claude Code-friendly, simple, no overhead |
+| Backend | Python + Flask | Claude Code-friendly, simple, Jinja2 templating built in |
 | Frontend | Plain HTML/CSS/JS | No framework justified at v1 complexity |
 | Database | SQLite | Single-user, local-first, no server setup |
 | Intelligence | Claude API | Reasoning and explanation layer |
 | Deployment | Local-first | No hosting costs or complexity during build |
 
-Flask vs. FastAPI to be decided during Cycle 0 setup.
+Flask selected in Cycle 0. See DecisionLog Decision 008 for rationale.
 
 ---
 

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Set Target Adventure{% endblock %}
+
+{% block content %}
+<div class="adventure-layout">
+
+  <!-- Form column -->
+  <form method="POST" action="{{ url_for('adventure.adventure_submit') }}" class="form" id="adventure-form">
+
+    <div class="form-field">
+      <label class="label">Trail Name</label>
+      <input type="text" name="trail_name" placeholder="e.g. Rockwall Trail"
+             value="{{ current.trail_name if current else '' }}" class="input" id="trail-name" />
+    </div>
+
+    <div class="form-field">
+      <label class="label">Start Date</label>
+      <input type="date" name="start_date"
+             value="{{ current.start_date if current else '' }}" class="input" style="color-scheme:dark;" id="start-date" />
+    </div>
+
+    <div class="form-grid-2">
+      <div class="form-field">
+        <label class="label">Nights</label>
+        <input type="number" name="nights" min="1"
+               value="{{ current.nights if current else '' }}" placeholder="4" class="input" id="nights" />
+      </div>
+      <div class="form-field">
+        <label class="label">Distance (km)</label>
+        <input type="number" name="distance_km" min="1" step="0.1"
+               value="{{ current.distance_km if current else '' }}" placeholder="55" class="input" id="distance" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label class="label">Elevation Gain (m)</label>
+      <input type="number" name="elevation_gain_m"
+             value="{{ current.elevation_gain_m if current else '' }}" placeholder="2300" class="input" id="elevation" />
+    </div>
+
+    <div class="form-field">
+      <label class="label">Difficulty</label>
+      <div class="chip-row">
+        {% for diff in ["Moderate", "Hard", "Extreme"] %}
+        <label class="chip chip--diff-{{ diff.lower() }}">
+          <input type="radio" name="difficulty" value="{{ diff }}"
+                 {% if current and current.difficulty == diff %}checked{% elif not current and diff == 'Hard' %}checked{% endif %}
+                 hidden />
+          {{ diff }}
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <button type="submit" class="btn-primary btn--full">Set as Target</button>
+
+  </form>
+
+  <!-- Summary sidebar -->
+  <div class="summary-card" id="summary">
+    <p class="label label--accent" style="margin-bottom:16px;">Summary</p>
+    <h3 class="summary-title" id="s-trail">{{ current.trail_name if current else '—' }}</h3>
+
+    <div class="summary-rows">
+      <div class="summary-row">
+        <span class="mono-xs dim">START</span>
+        <span id="s-start">{{ current.start_date if current else '—' }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="mono-xs dim">NIGHTS</span>
+        <span id="s-nights">{{ current.nights if current else '—' }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="mono-xs dim">DISTANCE</span>
+        <span id="s-dist">{{ (current.distance_km | string + ' km') if current else '—' }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="mono-xs dim">ELEVATION</span>
+        <span id="s-elev">{{ (current.elevation_gain_m | string + ' m') if current else '—' }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="mono-xs dim">DIFFICULTY</span>
+        <span id="s-diff" class="accent">{{ current.difficulty if current else 'Hard' }}</span>
+      </div>
+    </div>
+
+    <div class="summary-divider">
+      <span class="mono-xs dim" style="display:block;margin-bottom:4px;">DAYS OUT</span>
+      <span id="s-days" style="font-size:14px;">—</span>
+    </div>
+
+    <div class="summary-divider">
+      <span class="mono-xs dim" style="display:block;margin-bottom:6px;">FITNESS REQUIREMENT</span>
+      <span id="s-req" class="readiness-score" style="font-size:32px;">75</span>
+      <span class="mono-xs dim" style="margin-left:4px;">/ 100</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const diffReq = { Moderate: 60, Hard: 75, Extreme: 90 };
+
+  function update() {
+    document.getElementById("s-trail").textContent = document.getElementById("trail-name").value || "—";
+    const sd = document.getElementById("start-date").value;
+    document.getElementById("s-start").textContent = sd || "—";
+    if (sd) {
+      const days = Math.max(0, Math.ceil((new Date(sd + "T12:00:00") - new Date()) / 864e5));
+      document.getElementById("s-days").textContent = days;
+    }
+    document.getElementById("s-nights").textContent = document.getElementById("nights").value || "—";
+    const dist = document.getElementById("distance").value;
+    document.getElementById("s-dist").textContent = dist ? dist + " km" : "—";
+    const elev = document.getElementById("elevation").value;
+    document.getElementById("s-elev").textContent = elev ? elev + " m" : "—";
+
+    const sel = document.querySelector('input[name="difficulty"]:checked');
+    if (sel) {
+      document.getElementById("s-diff").textContent = sel.value;
+      document.getElementById("s-req").textContent = diffReq[sel.value] || "—";
+    }
+  }
+
+  document.getElementById("adventure-form").addEventListener("input", update);
+  update();
+</script>
+{% endblock %}
